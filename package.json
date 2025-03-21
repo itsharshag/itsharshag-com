@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build --force",
+    "build": "next build",
     "start": "next start",
     "deploy": "vercel deploy",
     "deps": "run-s deps:*",
