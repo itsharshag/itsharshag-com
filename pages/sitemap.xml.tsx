@@ -4,6 +4,8 @@ import { host } from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
 import type { SiteMap } from '@/lib/types'
 
+import { basePath } from '@/lib/config'
+
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (req.method !== 'GET') {
     res.statusCode = 405
@@ -43,14 +45,14 @@ const createSitemap = (siteMap: SiteMap) =>
     </url>
 
     ${Object.keys(siteMap.canonicalPageMap)
-      .map((canonicalPagePath) =>
-        `
+    .map((canonicalPagePath) =>
+      `
           <url>
-            <loc>${host}/${canonicalPagePath}</loc>
+            <loc>${host}${basePath}/${canonicalPagePath}</loc>
           </url>
         `.trim()
-      )
-      .join('')}
+    )
+    .join('')}
   </urlset>
 `
 
