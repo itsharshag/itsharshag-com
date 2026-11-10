@@ -35,9 +35,12 @@ class BrowserNotionAPI extends NotionAPI {
         })
         return unwrapRecords(res)
       } catch (err: any) {
-        const status = err?.response?.statusCode ?? err?.response?.status
-        if (attempt >= 6 || !(status === 429 || status >= 500)) throw err
-        await sleep(1000 * 2 ** attempt + Math.random() * 1000)
+        const res = err?.response
+        const status = res?.statusCode ?? res?.status
+        if (attempt >= 9 || !(status === 429 || status >= 500)) throw err
+        const header = res?.headers?.get?.('retry-after') ?? res?.headers?.['retry-after']
+        const retryAfter = Number(header) * 1000 || 0
+        await sleep(Math.min(60_000, Math.max(retryAfter, 1000 * 2 ** attempt)) + Math.random() * 1000)
       }
     }
   }
