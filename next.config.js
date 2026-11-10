@@ -6,6 +6,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   staticPageGenerationTimeout: 300,
   images: {
+    // Notion's image proxy answers 403 to the optimizer's server-side fetch,
+    // so let browsers load images straight from Notion.
+    unoptimized: true,
     domains: [
       'www.notion.so',
       'notion.so',
